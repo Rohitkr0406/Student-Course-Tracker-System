@@ -2,6 +2,8 @@ import courses.*;
 import users.*;
 import enrollments.*;
 import util.*;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -204,12 +206,26 @@ public class Main {
             int studentChoice = Integer.parseInt(sc.nextLine());
 
             if(studentChoice == 1){
-                CourseDAO.getAllCourses().forEach(System.out::println);
-                Logger.logAction(studentId, "Viewed all courses.");
+                List<Course> allCourses = CourseDAO.getAllCourses();
+                System.out.println("Available Courses:");
+                System.out.printf("%-10s %-50s %-10s %-15s\n", "Course ID", "Course Name", "Capacity", "Type");
+                System.out.println("-".repeat(80));
+                for(Course course : allCourses){
+                    System.out.printf("%-10s %-50s %-10d %-15s\n", course.getCourseId(), course.getCourseName(), course.getCapacity(), course.getType());
+                }
+                System.out.println("-".repeat(80));
+                System.out.println("Total Courses Available: " + allCourses.size());
             } 
             
             else if(studentChoice == 2){
-                student.viewEnrolledCourses();
+                List<Course> enrolledCourses = Enrollment.getEnrolledCourses(student);
+                System.out.println("Enrolled Courses:");
+                System.out.printf("%-10s %-50s %-10s %-15s\n", "Course ID", "Course Name", "Capacity", "Type");
+                System.out.println("-".repeat(80));
+                for(Course course : enrolledCourses){
+                    System.out.printf("%-10s %-50s %-10d %-15s\n", course.getCourseId(), course.getCourseName(), course.getCapacity(), course.getType());
+                }
+                System.out.println("-".repeat(80));
                 Logger.logAction(studentId, "Viewed enrolled courses.");
             } 
             
@@ -231,15 +247,12 @@ public class Main {
             else if(studentChoice == 4){
                 System.out.print("Enter Course ID to drop: ");
                 String courseId = sc.nextLine();
-                Course course = student.getEnrolledCourses().stream()
-                    .filter(c-> c.getCourseId().equals(courseId))
-                    .findFirst()
-                    .orElse(null);
+                Course course = CourseDAO.getCourseById(courseId);
                 if(course != null){
                     Enrollment.dropCourse(student, course);
                     Logger.logAction(studentId, "Dropped course: " + courseId);
                 } else {
-                    System.out.println("Course not found in enrolled courses.");
+                    System.out.println("Course not found.");
                 }
             } 
             

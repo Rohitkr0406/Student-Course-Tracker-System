@@ -93,4 +93,33 @@ public class CourseDAO {
 
         return false;
     }
+
+    public static Course getCourseById(String courseId) {
+        String sql = "SELECT * FROM courses WHERE course_id = ?";
+        Course course = null;
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, courseId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String id = rs.getString("course_id");
+                String name = rs.getString("name");
+                int capacity = rs.getInt("capacity");
+                String typeStr = rs.getString("type");
+
+                // Mapping MySQL ENUM → Java ENUM
+                CourseType type = CourseType.valueOf(typeStr.toUpperCase());
+
+                course = new Course(id, name, capacity, type);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace(); // proper logging can be added later
+        }
+
+        return course;
+    }
 }

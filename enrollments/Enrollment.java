@@ -1,12 +1,15 @@
 package enrollments;
 
 import courses.Course;
+import courses.CourseDAO;
 import users.Student;
 import util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Enrollment {
     public static void enrollInCourse(Student student, Course course){
@@ -21,7 +24,6 @@ public class Enrollment {
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Enrollment successful for student ID: " + student.getUserId() + " in course ID: " + course.getCourseId());
-                student.getEnrolledCourses().add(course); // Add course to student's enrolled courses
             } else {
                 System.out.println("Enrollment failed for student ID: " + student.getUserId() + " in course ID: " + course.getCourseId());
             }
@@ -48,7 +50,6 @@ public class Enrollment {
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Dropped course ID: " + course.getCourseId() + " for student ID: " + student.getUserId());
-                student.removeEnrolledCourse(course); // Remove course from student's enrolled courses
             } else {
                 System.out.println("Failed to drop course ID: " + course.getCourseId() + " for student ID: " + student.getUserId());
             }
@@ -85,6 +86,35 @@ public class Enrollment {
             DBUtil.close(connection);
         }
         return count;
+    }
+
+    public static List<Course> getEnrolledCourses(Student student) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        List<Course> enrolledCourses = new ArrayList<>();
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "SELECT course_id FROM enrollments WHERE roll_no = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, student.getUserId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String courseId = resultSet.getString("course_id");
+                Course course = CourseDAO.getCourseById(courseId); // Assuming you have a method to get course by ID
+                if (course != null) {
+                    enrolledCourses.add(course);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception during getting enrolled courses: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found exception: " + e.getMessage());
+        } finally {
+            DBUtil.close(preparedStatement);
+            DBUtil.close(connection);
+        }
+        return enrolledCourses;
+            
     }
     
 }

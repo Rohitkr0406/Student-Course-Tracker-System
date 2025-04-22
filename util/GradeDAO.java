@@ -12,7 +12,7 @@ public class GradeDAO {
 
     //Assign or update a grade for a student in a course
     public static boolean assignGrade(String roll_no, String courseId, GradeType grade) {
-        String sql = "UPDATE enrollments SET grade = ? WHERE student_id = ? AND course_id = ?";
+        String sql = "UPDATE enrollments SET grade = ? WHERE roll_no = ? AND course_id = ?";
 
         try(Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
