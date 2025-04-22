@@ -11,19 +11,20 @@ import java.util.List;
 public class GradeDAO {
 
     //Assign or update a grade for a student in a course
-    public static boolean assignGrade(String studentId, String courseId, GradeType grade) {
+    public static boolean assignGrade(String roll_no, String courseId, GradeType grade) {
         String sql = "UPDATE enrollments SET grade = ? WHERE student_id = ? AND course_id = ?";
 
         try(Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, grade.toString().toUpperCase());
-            pstmt.setString(2, studentId);
+            pstmt.setString(2, roll_no);
             pstmt.setString(3, courseId);
             
             int rowsAffected = pstmt.executeUpdate();
             if(rowsAffected > 0) {
-                System.out.println("Successfully assigned grade " + grade + " to student " + studentId + " for course " + courseId);
+                System.out.println("Successfully assigned grade " + grade + " to student " + roll_no + " for course " + courseId);
+                Logger.logAction(roll_no, "Assigned grade " + grade + " for course " + courseId);
                 return true;
             } else {
                 System.out.println("Failed to assign grade. No matching enrollment found.");
@@ -36,23 +37,23 @@ public class GradeDAO {
     }
 
     //Get all grades for a student
-    public static List<EnrollmentGrade> getGradesByStudentId(String studentId) {
+    public static List<EnrollmentGrade> getGradesByStudentId(String roll_no) {
         List<EnrollmentGrade> grades = new ArrayList<>();
         String sql = "SELECT * FROM enrollments WHERE student_id = ?";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, studentId);
+            pstmt.setString(1, roll_no);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 String courseId = rs.getString("course_id");
                 String gradestr = rs.getString("grade");
                 GradeType grade = gradestr != null ? GradeType.valueOf(gradestr.toUpperCase()) : null; 
-                grades.add(new EnrollmentGrade(studentId, courseId, grade));
+                grades.add(new EnrollmentGrade(roll_no, courseId, grade));
             }
-            Logger.logAction(studentId, "Retrived grades for student. ");
+            Logger.logAction(roll_no, "Retrived grades for student. ");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace(); // proper logging can be added later
         }
@@ -63,18 +64,18 @@ public class GradeDAO {
 
     //Helper class to represent a grade record
     public static class EnrollmentGrade{
-        private String studentId;
+        private String roll_no;
         private String courseId;
-        private Enum<GradeType> grade;
+        private GradeType grade;
 
-        public EnrollmentGrade(String studentId, String courseId, GradeType grade) {
-            this.studentId = studentId;
+        public EnrollmentGrade(String roll_no, String courseId, GradeType grade) {
+            this.roll_no = roll_no;
             this.courseId = courseId;
             this.grade = grade;
         }
 
         public String getStudentId() {
-            return studentId;
+            return roll_no;
         }
 
         public String getCourseId() {
