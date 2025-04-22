@@ -16,7 +16,7 @@ public class Course {
     public String getCourseId() { return courseId; }
     public void setCourseId(String courseId) { this.courseId = courseId; }
 
-    public String getName() { return name; }
+    public String getCourseName() { return name; }
     public void setName(String name) { this.name = name; }
 
     public int getCapacity() { return capacity; }

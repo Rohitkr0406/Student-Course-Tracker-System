@@ -29,24 +29,32 @@ public class Student extends User {
     public String getContact() { return contact; }
     public void setContact(String contact) { this.contact = contact; }
 
-    public void enrollCourse(Course course) {
-        if (course != null && !enrolledCourses.contains(course)) {
-            enrolledCourses.add(course);
-        } else {
-            System.out.println("Course already enrolled or invalid course.");
-        }
+    public List<Course> getEnrolledCourses() { return enrolledCourses; }
+
+    public void setEnrolledCourses(List<Course> enrolledCourses) {
+        this.enrolledCourses = enrolledCourses;
     }
 
-    public void dropCourse(Course course) {
-        if (course != null && enrolledCourses.contains(course)) {
+    public void removeEnrolledCourse(Course course) {
+        if (enrolledCourses.contains(course)) {
             enrolledCourses.remove(course);
-        } else {
-            System.out.println("Course not found in enrolled courses or invalid course.");
+        }
+        else{
+            System.out.println("Course not found in enrolled courses.");
         }
     }
 
-    public List<Course> getEnrolledCourses() {
-        return enrolledCourses;
+    public void viewEnrolledCourses() {
+        if (enrolledCourses.isEmpty()) {
+            System.out.println("No courses enrolled.");
+        } else {
+            System.out.println("Enrolled Courses:\n");
+            System.out.println("Course ID:\tCourse Name");
+            System.out.println("-------------------------------------------------");
+            for(Course course : enrolledCourses) {
+                System.out.println(course.getCourseId() + ":\t" + course.getCourseName());
+            }
+        }
     }
     
 }

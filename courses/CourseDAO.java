@@ -41,7 +41,7 @@ public class CourseDAO {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, course.getCourseId());
-            pstmt.setString(2, course.getName());
+            pstmt.setString(2, course.getCourseName());
             pstmt.setInt(3, course.getCapacity());
             pstmt.setString(4, course.getType().toString().toUpperCase());
 
@@ -61,7 +61,7 @@ public class CourseDAO {
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, course.getName());
+            pstmt.setString(1, course.getCourseName());
             pstmt.setInt(2, course.getCapacity());
             pstmt.setString(3, course.getType().toString().toUpperCase());
             pstmt.setString(4, course.getCourseId());

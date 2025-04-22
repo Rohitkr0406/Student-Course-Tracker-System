@@ -76,6 +76,20 @@ public class Admin extends User {
             }
         }
     }
+
+    public void viewAllCourses() {
+        List<Course> allCourses = CourseDAO.getAllCourses();
+        if (allCourses.isEmpty()) {
+            System.out.println("No courses found.");
+        } else {
+            System.out.println("List of all courses:");
+            System.out.println("Course ID\tName\tCapacity\tType");
+            System.out.println("-----------------------------------------");
+            for (Course course : allCourses) {
+                System.out.println(course.getCourseId() + "\t" + course.getCourseName() + "\t" + course.getCapacity() + "\t" + course.getType());
+            }
+        }
+    }
 }
 
 
