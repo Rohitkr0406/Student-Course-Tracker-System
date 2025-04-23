@@ -96,7 +96,3 @@ Feel free to open an issue or a pull request!
 **GitHub:** [@Rohitkr0406](https://github.com/Rohitkr0406)
 
 ---
-
-## 📝 License
-
-This project is open-source and available under the [MIT License](LICENSE).
