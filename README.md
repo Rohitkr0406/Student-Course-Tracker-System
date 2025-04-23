@@ -77,11 +77,6 @@ git clone https://github.com/Rohitkr0406/Student-Course-Tracker-System.git
 
 ---
 
-## 📸 Sample Screens
-
-> *(Add screenshots of student login, course list, grade display, etc. here if you want)*
-
----
 
 ## 🤝 Contributing
 
