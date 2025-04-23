@@ -41,7 +41,6 @@ A Java-based console application that helps **students** enroll in courses and *
 src/
 ├── courses/         # Course model, CourseType enum, DAO
 ├── enrollment/      # Grade DAO and related operations
-├── exceptions/      # Custom exceptions (if any)
 ├── users/           # Admin and Student classes, User base class, DAOs
 ├── util/            # DBUtil class for connection setup
 └── main/            # Entry point and menu logic
