@@ -1,6 +1,7 @@
 package users;
 
 import java.util.List;
+import util.Logger;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -29,7 +30,7 @@ public class StudentDAO {
                 students.add(student);
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("SQL Exception while retrieving students: " + e.getMessage());
         }
         return students;       
     }
@@ -49,7 +50,7 @@ public class StudentDAO {
                 student = new Student(rollNo, name, age, contact, password);
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("Error occurred while retrieving student with roll_no: " + rollNo + ". Details: " + e.getMessage());
         }
         return student;
     }

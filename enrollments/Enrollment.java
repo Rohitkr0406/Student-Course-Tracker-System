@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import util.Logger;
 
 public class Enrollment {
     public static void enrollInCourse(Student student, Course course){
@@ -28,9 +29,9 @@ public class Enrollment {
                 System.out.println("Enrollment failed for student ID: " + student.getUserId() + " in course ID: " + course.getCourseId());
             }
         } catch (SQLException e) {
-            System.out.println("SQL Exception during enrollment: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("Class not found exception: " + e.getMessage());
+            Logger.logError("SQL Exception during enrollment: " + e.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.logError("Class not found exception during enrollment: " + ex.getMessage());
         }   
         finally {
             DBUtil.close(preparedStatement);
@@ -54,9 +55,9 @@ public class Enrollment {
                 System.out.println("Failed to drop course ID: " + course.getCourseId() + " for student ID: " + student.getUserId());
             }
         } catch (SQLException e) {
-            System.out.println("SQL Exception during dropping course: " + e.getMessage());
+            Logger.logError("SQL Exception during dropping course: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            System.out.println("Class not found exception: " + e.getMessage());
+            Logger.logError("Class not found exception: " + e.getMessage());
         }
          finally {
             DBUtil.close(preparedStatement);
@@ -78,9 +79,9 @@ public class Enrollment {
                 count = resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            System.out.println("SQL Exception during getting enrollment count: " + e.getMessage()); 
+            Logger.logError("SQL Exception during getting enrollment count: " + e.getMessage()); 
         } catch (ClassNotFoundException e) {
-            System.out.println("Class not found exception: " + e.getMessage());
+            Logger.logError("Class not found exception: " + e.getMessage());
         } finally {
             DBUtil.close(preparedStatement);
             DBUtil.close(connection);
@@ -106,9 +107,9 @@ public class Enrollment {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("SQL Exception during getting enrolled courses: " + e.getMessage());
+            Logger.logError("SQL Exception during getting enrolled courses: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            System.out.println("Class not found exception: " + e.getMessage());
+            Logger.logError("Class not found exception: " + e.getMessage());
         } finally {
             DBUtil.close(preparedStatement);
             DBUtil.close(connection);

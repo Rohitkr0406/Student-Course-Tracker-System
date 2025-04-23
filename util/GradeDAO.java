@@ -31,7 +31,7 @@ public class GradeDAO {
                 return false;
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("SQL Exception while assigning grade: " + e.getMessage());
         }
         return false;
     }
@@ -55,7 +55,7 @@ public class GradeDAO {
             }
             Logger.logAction(roll_no, "Retrived grades for student. ");
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("SQL Exception while retrieving grades: " + e.getMessage());
         }
         return grades;
 

@@ -2,6 +2,7 @@ package users;
 
 import util.DBUtil;
 import java.sql.*;
+import util.Logger;
 
 public class AdminDAO{
 
@@ -21,7 +22,7 @@ public class AdminDAO{
                 return null; // No admin found with the given credentials
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("Error occurred while retrieving admin with emp_id: " + emp_id + ". Details: " + e.getMessage());
         }
         return null; // In case of an error, return null
     }

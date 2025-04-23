@@ -4,6 +4,7 @@ import util.DBUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import util.Logger;
 
 public class CourseDAO {
 
@@ -28,7 +29,7 @@ public class CourseDAO {
             }
 
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError( "SQL Exception during getting all courses: " + e.getMessage());
         }
 
         return courses;
@@ -49,7 +50,7 @@ public class CourseDAO {
             return rowsAffected > 0;
 
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("SQL Exception during adding course: " + e.getMessage());
         }
 
         return false;
@@ -70,7 +71,7 @@ public class CourseDAO {
             return rowsAffected > 0;
 
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("SQL Exception during updating course: " + e.getMessage());
         }
 
         return false;
@@ -88,7 +89,7 @@ public class CourseDAO {
             return rowsAffected > 0;
 
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("SQL Exception during removing course: " + e.getMessage());
         }
 
         return false;
@@ -117,7 +118,7 @@ public class CourseDAO {
             }
 
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace(); // proper logging can be added later
+            Logger.logError("SQL Exception during getting course by ID: " + e.getMessage());
         }
 
         return course;
