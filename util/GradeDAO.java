@@ -39,7 +39,7 @@ public class GradeDAO {
     //Get all grades for a student
     public static List<EnrollmentGrade> getGradesByStudentId(String roll_no) {
         List<EnrollmentGrade> grades = new ArrayList<>();
-        String sql = "SELECT * FROM enrollments WHERE student_id = ?";
+        String sql = "SELECT * FROM enrollments WHERE roll_no = ?";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

@@ -14,7 +14,7 @@ public class Main {
                 System.out.println("1. Login as Student");
                 System.out.println("2. Login as Admin");
                 System.out.println("3. Exit");
-                System.out.print("Please select an option: ");
+                System.out.print("\nPlease select an option: ");
                 int choice = sc.nextInt();
                 sc.nextLine(); // Consume newline
 
@@ -36,10 +36,11 @@ public class Main {
     }
 
     private static void handleAdminLogin(Scanner sc) {
-        System.out.print("Enter Admin ID: ");
+        System.out.print("\nEnter Admin ID: ");
         String adminId = sc.nextLine();
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
+        System.out.print("\n");
 
         Admin admin = AdminDAO.getAdminByIdAndPassword(adminId, password);
         if (admin == null) {
@@ -143,7 +144,7 @@ public class Main {
                 }
 
                 else if(adminChoice == 5){
-                    admin.viewAllCourses();
+                    viewAllCourses();
                     Logger.logAction(adminId, "Viewed all courses.");
                 }
                 
@@ -179,10 +180,11 @@ public class Main {
         }
 
     private static void handleStudentLogin(Scanner sc) {
-        System.out.print("Enter Student ID: ");
+        System.out.print("\nEnter Student ID: ");
         String studentId = sc.nextLine();
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
+        System.out.println("\n");
 
         Student student = StudentDAO.getStudentByIdAndPassword(studentId, password);
         if (student == null) {
@@ -202,19 +204,13 @@ public class Main {
             System.out.println("4. Drop Course");
             System.out.println("5. View Report Card");
             System.out.println("6. Logout");
-            System.out.print("\n Select an option: ");
+            System.out.print("\nSelect an option: ");
             int studentChoice = Integer.parseInt(sc.nextLine());
+            System.out.print("\n");
 
             if(studentChoice == 1){
-                List<Course> allCourses = CourseDAO.getAllCourses();
-                System.out.println("Available Courses:");
-                System.out.printf("%-10s %-50s %-10s %-15s\n", "Course ID", "Course Name", "Capacity", "Type");
-                System.out.println("-".repeat(80));
-                for(Course course : allCourses){
-                    System.out.printf("%-10s %-50s %-10d %-15s\n", course.getCourseId(), course.getCourseName(), course.getCapacity(), course.getType());
-                }
-                System.out.println("-".repeat(80));
-                System.out.println("Total Courses Available: " + allCourses.size());
+                viewAllCourses();
+                Logger.logAction(studentId, "Viewed all courses.");
             } 
             
             else if(studentChoice == 2){
@@ -263,7 +259,7 @@ public class Main {
             } 
             
             else if(studentChoice == 6){
-                System.out.println("Logging out...");
+                System.out.println("Logging out...\n");
                 Logger.logAction(studentId, "Logged out successfully");
                 break;
             } 
@@ -272,6 +268,18 @@ public class Main {
                 System.out.println("Invalid choice. Please try again.");
             }
         }
+    }
+
+    public static void viewAllCourses() {
+        List<Course> allCourses = CourseDAO.getAllCourses();
+                System.out.println("Available Courses:");
+                System.out.printf("%-10s %-50s %-10s %-15s\n", "Course ID", "Course Name", "Capacity", "Type");
+                System.out.println("-".repeat(80));
+                for(Course course : allCourses){
+                    System.out.printf("%-10s %-50s %-10d %-15s\n", course.getCourseId(), course.getCourseName(), course.getCapacity(), course.getType());
+                }
+                System.out.println("-".repeat(80));
+                System.out.println("Total Courses Available: " + allCourses.size());
     }
 
 }

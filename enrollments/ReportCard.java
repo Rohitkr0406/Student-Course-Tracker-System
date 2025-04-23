@@ -21,16 +21,13 @@ public class ReportCard {
         }
 
         System.out.println("Report Card for Student ID: " + rollNo);
-        System.out.printf("%-15s %-20s %-10s%n", "Course ID", "Course Name", "Grade");
+        System.out.printf("%-15s %-30s %-10s%n", "Course ID", "Course Name", "Grade");
         System.out.println("-------------------------------------------------");
         for(GradeDAO.EnrollmentGrade grade : grades) {
-            Course course = CourseDAO.getAllCourses().stream()
-                    .filter(c -> c.getCourseId().equals(grade.getCourseId()))
-                    .findFirst()
-                    .orElse(null);
+            Course course = CourseDAO.getCourseById(grade.getCourseId());
             String courseName = (course != null) ? course.getCourseName() : "Unknown Course";
             String gradeStr = (grade.getGrade() != null) ? grade.getGrade().toString() : "N/A";
-            System.out.printf("%-15s %-20s %-10s%n", grade.getCourseId(), courseName, gradeStr);
+            System.out.printf("%-15s %-30s %-10s%n", grade.getCourseId(), courseName, gradeStr);
         }
         System.out.println("-------------------------------------------------");
     }
